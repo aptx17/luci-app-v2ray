@@ -1,4 +1,4 @@
-name: Push Package Sources and Build
+name: Push Package Sources and Build test
 on:
   push:
     branches:
