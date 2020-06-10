@@ -578,6 +578,18 @@ return L.view.extend<string[]>({
 
     o = s.taboption(
       "general",
+      form.ListValue,
+      "s_vmess_user_testsEnabled",
+      "%s - %s".format("VMess", _("testsEnabled"))
+    );
+    o.modalonly = true;
+    o.depends("protocol", "vmess");
+    o.value("");
+    o.value("VMessAEAD");
+    o.value("none", _("None"));
+
+    o = s.taboption(
+      "general",
       form.Value,
       "s_vmess_user_level",
       "%s - %s".format("VMess", _("User level"))
