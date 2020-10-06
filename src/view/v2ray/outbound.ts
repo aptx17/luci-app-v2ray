@@ -682,7 +682,7 @@ return L.view.extend<string[]>({
       "%s - %s".format("XTLS", _("Server name"))
     );
     o.modalonly = true;
-    o.depends("ss_security", "xtls");
+    o.depends("ss_security2", "xtls");
 	
     // Stream Settings - TLS
     o = s.taboption(
