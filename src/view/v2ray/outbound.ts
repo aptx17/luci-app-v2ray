@@ -274,6 +274,7 @@ return L.view.extend<string[]>({
     o.value("mtproto", "MTProto");
     o.value("shadowsocks", "Shadowsocks");
     o.value("socks", "Socks");
+    o.value("vless", "VLess");
     o.value("vmess", "VMess");
 
     // Settings Blackhole
@@ -598,6 +599,64 @@ return L.view.extend<string[]>({
     o.depends("protocol", "vmess");
     o.datatype = "uinteger";
 
+    // Settings - VLess
+    o = s.taboption(
+      "general",
+      form.Value,
+      "s_vless_address",
+      "%s - %s".format("VLess", _("Address"))
+    );
+    o.modalonly = true;
+    o.depends("protocol", "vless");
+    o.datatype = "host";
+
+    o = s.taboption(
+      "general",
+      form.Value,
+      "s_vless_port",
+      "%s - %s".format("VLess", _("Port"))
+    );
+    o.modalonly = true;
+    o.depends("protocol", "vless");
+    o.datatype = "port";
+
+    o = s.taboption(
+      "general",
+      form.Value,
+      "s_vmess_user_id",
+      "%s - %s".format("VLess", _("User ID"))
+    );
+    o.modalonly = true;
+    o.depends("protocol", "vless");
+
+    o = s.taboption(
+      "general",
+      form.Value,
+      "s_vless_user_flow",
+      "%s - %s".format("VLess", _("Flow"))
+    );
+    o.modalonly = true;
+    o.depends("protocol", "vless");
+	
+    o = s.taboption(
+      "general",
+      form.Value,
+      "s_vless_user_encryption",
+      "%s - %s".format("VLess", _("Encryption"))
+    );
+    o.modalonly = true;
+    o.depends("protocol", "vless");
+
+    o = s.taboption(
+      "general",
+      form.Value,
+      "s_vless_user_level",
+      "%s - %s".format("VLess", _("User level"))
+    );
+    o.modalonly = true;
+    o.depends("protocol", "vless");
+    o.datatype = "uinteger";
+	
     /** Stream Settings **/
     o = s.taboption("stream", form.ListValue, "ss_network", _("Network"));
     o.value("");
@@ -613,7 +672,18 @@ return L.view.extend<string[]>({
     o.value("");
     o.value("none", _("None"));
     o.value("tls", "TLS");
-
+	  o.value("xtls", "XTLS");
+	
+    // Stream Settings - XTLS
+    o = s.taboption(
+      "stream",
+      form.Value,
+      "ss_xtls_server_name",
+      "%s - %s".format("XTLS", _("Server name"))
+    );
+    o.modalonly = true;
+    o.depends("ss_security", "xtls");
+	
     // Stream Settings - TLS
     o = s.taboption(
       "stream",
