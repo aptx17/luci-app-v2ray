@@ -52,6 +52,7 @@ return L.view.extend<string[]>({
       uci.set("v2ray", sid, "s_vmess_user_id", vmess.id || "");
       uci.set("v2ray", sid, "s_vmess_user_alter_id", vmess.aid || "");
       uci.set("v2ray", sid, "ss_security", tls);
+      uci.set("v2ray", sid, "ss_security2", xtls);
 
       let hosts: string[] = [];
       if (vmess.host) {
@@ -637,7 +638,7 @@ return L.view.extend<string[]>({
     );
     o.modalonly = true;
     o.depends("protocol", "vless");
-	
+
     o = s.taboption(
       "general",
       form.Value,
@@ -656,7 +657,7 @@ return L.view.extend<string[]>({
     o.modalonly = true;
     o.depends("protocol", "vless");
     o.datatype = "uinteger";
-	
+
     /** Stream Settings **/
     o = s.taboption("stream", form.ListValue, "ss_network", _("Network"));
     o.value("");
@@ -667,13 +668,13 @@ return L.view.extend<string[]>({
     o.value("domainsocket", "Domain Socket");
     o.value("quic", "QUIC");
 
-    o = s.taboption("stream", form.ListValue, "ss_security", _("Security"));
+    o = s.taboption("stream", form.ListValue, "ss_security", "ss_security2", _("Security"));
     o.modalonly = true;
     o.value("");
     o.value("none", _("None"));
     o.value("tls", "TLS");
 	  o.value("xtls", "XTLS");
-	
+
     // Stream Settings - XTLS
     o = s.taboption(
       "stream",
@@ -683,7 +684,7 @@ return L.view.extend<string[]>({
     );
     o.modalonly = true;
     o.depends("ss_security2", "xtls");
-	
+
     // Stream Settings - TLS
     o = s.taboption(
       "stream",
