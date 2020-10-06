@@ -23,7 +23,7 @@ return L.view.extend<string[]>({
 
     let linksCount = 0;
     for (const link of links) {
-      let vmess;
+      let vmess,vless;
       if (
         !link ||
         !(vmess = converters.vmessLinkToVmess(link)) ||
@@ -38,6 +38,7 @@ return L.view.extend<string[]>({
       const address = vmess.add || "0.0.0.0";
       const port = vmess.port || "0";
       const tls = vmess.tls || "";
+      const xtls = vless.xtls || "";
 
       const network = vmess.net || "";
       const headerType = vmess.type || "";
