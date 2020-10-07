@@ -348,8 +348,7 @@ outbound_section_validate() {
 		's_vless_user_encryption:string' \
 		's_vless_user_level:uinteger' \
 		'ss_network:or("tcp", "kcp", "ws", "http", "domainsocket", "quic")' \
-		'ss_security:or("none", "tls")' \
-		'ss_security2:or("none", "xtls")' \
+		'ss_security:or("none", "tls", "xtls")' \
 		'ss_tls_server_name:host' \
 		'ss_tls_alpn:string' \
 		'ss_tls_allow_insecure:bool:0' \
@@ -1685,20 +1684,19 @@ add_outbound_setting() {
 	test -n "$ss_security" && \
 		json_add_string "security" "$ss_security"
 
-	if [ "x$ss_security" = "xtls" ] ; then
+	if [ "$ss_security" = "xtls" ] ; then
+		json_add_object "xtlsSettings"
+
+		test -n "$ss_xtls_server_name" && \
+			json_add_string "serverName" "$ss_xtls_server_name"
+			json_close_array
+			fi
+
+	if [ "$ss_security" = "tls" ] ; then
 		json_add_object "tlsSettings"
 
 		test -n "$ss_tls_server_name" && \
 			json_add_string "serverName" "$ss_tls_server_name"
-			
-	test -n "$ss_security2" && \
-		json_add_string "security" "$ss_security2"
-
-	if [ "x$ss_security2" = "xtls" ] ; then
-		json_add_object "xtlsSettings"
-
-		test -n "$ss_tls_server_name" && \
-			json_add_string "serverName" "$ss_xtls_server_name"
 
 		if [ -n "$ss_tls_alpn" ] ; then
 			json_add_array "alpn"
@@ -1724,8 +1722,8 @@ add_outbound_setting() {
 		json_close_object # tlsSettings
 	fi
 
-	case "${ss_network:-x}" in
-		"tcp")
+	case "${ss_security:-x}" in
+		"tls")
 			json_add_object "tcpSettings"
 
 			if [ -n "$ss_tcp_header_type" ] ; then
