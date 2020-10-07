@@ -341,8 +341,15 @@ outbound_section_validate() {
 		's_vmess_user_security:or("auto", "aes-128-gcm", "chacha20-poly1305", "none")' \
 		's_vmess_user_testsEnabled:or("VMessAEAD", "none")' \
 		's_vmess_user_level:uinteger' \
+	  's_vless_address:host' \
+		's_vless_port:port' \
+		's_vless_user_id:string' \
+		's_vless_user_flow:string' \
+		's_vless_user_encryption:string' \
+		's_vless_user_level:uinteger' \
 		'ss_network:or("tcp", "kcp", "ws", "http", "domainsocket", "quic")' \
 		'ss_security:or("none", "tls")' \
+		'ss_security2:or("none", "xtls")' \
 		'ss_tls_server_name:host' \
 		'ss_tls_alpn:string' \
 		'ss_tls_allow_insecure:bool:0' \
@@ -1643,6 +1650,32 @@ add_outbound_setting() {
 			json_close_array # vnext
 			json_close_object # settings
 			;;
+		"vless")
+			json_add_object "settings"
+
+			json_add_array "vnext"
+			json_add_object ""
+
+			json_add_string "address" "$s_vless_address"
+			append_server_address "$s_vless_address"
+
+			json_add_int "port" "$s_vless_port"
+
+			json_add_array "users"
+			json_add_object ""
+			json_add_string "id" "$s_vless_user_id"
+			json_add_string "flow" "$s_vless_user_flow"
+			json_add_string "encryption" "$s_vless_user_encryption"
+			test -n "$s_vless_user_level" && \
+				json_add_int "level" "$s_vless_user_level"
+			json_close_object
+			json_close_array # users
+
+			json_close_object
+
+			json_close_array # vnext
+			json_close_object # settings
+			;;
 	esac
 
 	json_add_object "streamSettings"
@@ -1657,6 +1690,15 @@ add_outbound_setting() {
 
 		test -n "$ss_tls_server_name" && \
 			json_add_string "serverName" "$ss_tls_server_name"
+			
+	test -n "$ss_security2" && \
+		json_add_string "security" "$ss_security2"
+
+	if [ "x$ss_security2" = "xtls" ] ; then
+		json_add_object "xtlsSettings"
+
+		test -n "$ss_tls_server_name" && \
+			json_add_string "serverName" "$ss_xtls_server_name"
 
 		if [ -n "$ss_tls_alpn" ] ; then
 			json_add_array "alpn"
