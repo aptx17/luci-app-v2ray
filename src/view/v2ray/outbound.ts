@@ -23,7 +23,7 @@ return L.view.extend<string[]>({
 
     let linksCount = 0;
     for (const link of links) {
-      let vmess,vless;
+      let vmess;
       if (
         !link ||
         !(vmess = converters.vmessLinkToVmess(link)) ||
@@ -38,7 +38,6 @@ return L.view.extend<string[]>({
       const address = vmess.add || "0.0.0.0";
       const port = vmess.port || "0";
       const tls = vmess.tls || "";
-      const xtls = vless.xtls || "";
 
       const network = vmess.net || "";
       const headerType = vmess.type || "";
@@ -53,7 +52,6 @@ return L.view.extend<string[]>({
       uci.set("v2ray", sid, "s_vmess_user_id", vmess.id || "");
       uci.set("v2ray", sid, "s_vmess_user_alter_id", vmess.aid || "");
       uci.set("v2ray", sid, "ss_security", tls);
-      uci.set("v2ray", sid, "ss_security2", xtls);
 
       let hosts: string[] = [];
       if (vmess.host) {
@@ -669,7 +667,7 @@ return L.view.extend<string[]>({
     o.value("domainsocket", "Domain Socket");
     o.value("quic", "QUIC");
 
-    o = s.taboption("stream", form.ListValue, "ss_security", "ss_security2", _("Security"));
+    o = s.taboption("stream", form.ListValue, "ss_security", _("Security"));
     o.modalonly = true;
     o.value("");
     o.value("none", _("None"));
@@ -684,7 +682,7 @@ return L.view.extend<string[]>({
       "%s - %s".format("XTLS", _("Server name"))
     );
     o.modalonly = true;
-    o.depends("ss_security2", "xtls");
+    o.depends("ss_security", "xtls");
 
     // Stream Settings - TLS
     o = s.taboption(
