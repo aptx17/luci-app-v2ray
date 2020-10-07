@@ -672,7 +672,7 @@ return L.view.extend<string[]>({
     o.value("");
     o.value("none", _("None"));
     o.value("tls", "TLS");
-	  o.value("xtls", "XTLS");
+    o.value("xtls", "XTLS");
 
     // Stream Settings - XTLS
     o = s.taboption(
