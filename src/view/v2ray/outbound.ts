@@ -277,7 +277,6 @@ return L.view.extend<string[]>({
     o.value("vmess", "VMess");
     o.value("vless", "VLess");
 
-
     // Settings Blackhole
     o = s.taboption(
       "general",
