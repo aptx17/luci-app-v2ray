@@ -274,8 +274,9 @@ return L.view.extend<string[]>({
     o.value("mtproto", "MTProto");
     o.value("shadowsocks", "Shadowsocks");
     o.value("socks", "Socks");
-    o.value("vless", "VLess");
     o.value("vmess", "VMess");
+    o.value("vless", "VLess");
+
 
     // Settings Blackhole
     o = s.taboption(
@@ -623,7 +624,7 @@ return L.view.extend<string[]>({
     o = s.taboption(
       "general",
       form.Value,
-      "s_vmess_user_id",
+      "s_vless_user_id",
       "%s - %s".format("VLess", _("User ID"))
     );
     o.modalonly = true;
